@@ -1,7 +1,7 @@
 using App;
- enum RoomStatus   //help with mark room status easily.
+ enum RoomStatus  //help with mark room status easily.
 {
     Available,
     Occupied,
-    Unavialable,
+    Unavailable,
 }
