@@ -1,0 +1,12 @@
+// here is info for room status
+
+100,Avialable
+101,Occupied
+102,Avialable
+103,Unavilable // AC needs to be fixed
+104,Occupied
+105,Avialable
+106,Unavilable // Shower needs to be fixed
+107,Unavilable // Window needs to be fixed
+108,Occupied
+109,Avialable
