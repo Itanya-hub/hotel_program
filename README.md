@@ -24,3 +24,27 @@
    - Save data back into `rooms.csv` automatically
 
 6. **Loop continues until Exit**
+
+
+
+**problem during the code **
+1.'rooms' does not contain a definition for 'Add'
+I didn’t declare the rooms variable correctly.
+It must be a List, not a Dictionary.
+2.Error spell with sensitive case
+3.File Locked During Build ,The process cannot access the file 'hotelprogram.exe' because it is being used by another process.
+4.Forget to Add ! after Console.ReadLine() for Null warnings
+5.Compiler error: 'rooms' does not contain a definition for 'Add'. so i tried to Corrected the global variable declaration to use static List<Room> rooms = new List<Room>();.
+
+
+
+still underconstruction
+6. All rooms were incorrectly loaded as Available. that should be set to Unavailable follow by the rooms list i made in Rooms.csv
+i assume that The Rooms.csv file contained inline comments (e.g., 103,Unavailable // AC needs to be fixed). The string.Split(',') operation included the comment as part of the status string: "Unavailable // AC needs to be fixed" .. ...
+
+7.The Show All Rooms display listed every room twice. This caused occupied rooms (e.g., Room 101) to appear available during check-in because the search found the second, uninitialized copy of the room.  , still not work so far even I added rooms.Clear() as the first line within the LoadRooms()
+
+8. ShowRooms, CheckIn, check out are inside Mainmenu() , code doesnt run correctly 
+
+**git commit**    SaveRooms();  into case 5 so its save every changes 
+I have a misplaced closing curly brace (}). When a brace is missing:

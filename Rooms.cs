@@ -1,18 +1,22 @@
-using App;
- 
-class Room   //The variables (the data the class will hold)
+namespace App;
+
+public enum RoomStatus
 {
-    public RoomStatus Status;   // status (Free, Occupied,Available ) and also class's permanent data storage
-    public int RoomNumber;   
- 
-    public DateTime? CheckIn;  // date/time when guest checked in
+    Available,
+    Occupied,
+    Unavailable
+}
 
-    public Room(int roomNumber, string guestName, RoomStatus status)  //The constructor
+public class Room
+{
+    public int RoomNumber;
+    public string GuestName;
+    public RoomStatus Status;
+
+    public Room(int number, string guest, RoomStatus status)
     {
-    RoomNumber =roomNumber;
-
-    this.Status =status;
-    CheckIn = DateTime.Now;
+        RoomNumber = number;
+        GuestName = guest;
+        Status = status;
     }
-
 }

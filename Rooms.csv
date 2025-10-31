@@ -1,14 +1,10 @@
-// here is info for room status
-using App;
-
-
 100,Available
-101,Occupied
-102,Available
-103,Unavailable // AC needs to be fixed
-104,Occupied
+101,Occupied,
+102,Occupied,
+103,Unavailable
+104,Occupied,
 105,Available
-106,Unavailable // Shower needs to be fixed
-107,Unavailable // Window needs to be fixed
-108,Occupied
+106,Unavailable
+107,Unavailable
+108,Occupied,
 109,Available
