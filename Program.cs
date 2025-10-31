@@ -241,13 +241,8 @@ class HotelManager
         roomToFind.Status = RoomStatus.Occupied; // change room status
 
         Console.WriteLine($"Guest {guestName} has checked into room {roomNumber}.");
-
-
-        // Save the updated data to the CSV file
-        SaveRooms();
-
-        Console.WriteLine("Room status has been updated and saved!");
-
+            
+        
 
         //Handle the case where the room is not found in the list.
         if (roomToFind == null)
@@ -258,6 +253,7 @@ class HotelManager
         else
         {
             Console.WriteLine($"Room {roomNumber} is Available. Ready for Check-In.");
+            SaveRooms();      // Save the updated data to the CSV file
         }
     }
 
@@ -297,7 +293,7 @@ class HotelManager
                 }
                 // Write all the lines back to the file
                 File.WriteAllLines("Rooms.csv", lines);
-                Console.WriteLine("Changes saved successfully.");
+                Console.WriteLine("Room status has been sucessfully updated and saved!");
             }
             catch (Exception)
             {
@@ -306,6 +302,7 @@ class HotelManager
 
         }
     }
+
 
         
             

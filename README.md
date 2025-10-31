@@ -35,7 +35,7 @@ It must be a List, not a Dictionary.
 3.File Locked During Build ,The process cannot access the file 'hotelprogram.exe' because it is being used by another process.
 4.Forget to Add ! after Console.ReadLine() for Null warnings
 5.Compiler error: 'rooms' does not contain a definition for 'Add'. so i tried to Corrected the global variable declaration to use static List<Room> rooms = new List<Room>();.
-
+6. its good to have a record in eventlog same concecpt as my group assignment in healthcare but i will do this in.txt to just store a running history of actions. and the Users never need to go back and edit a log entry; they just append a new one which is different from .csv which is for store the application's current state as structured data and i use File.AppendAllText which I got an idea from one of my classmate that he used this method in trading assignment.
 
 
 still underconstruction
@@ -47,4 +47,12 @@ i assume that The Rooms.csv file contained inline comments (e.g., 103,Unavailabl
 8. ShowRooms, CheckIn, check out are inside Mainmenu() , code doesnt run correctly 
 
 **git commit**    SaveRooms();  into case 5 so its save every changes 
-I have a misplaced closing curly brace (}). When a brace is missing:
+I have a misplaced closing curly brace ({}). When a brace is missing:
+
+
+***mark som room available** 
+if i check out guest 100 original is occu ,, is it suppose to change to available ? I neeed to find solution 
+When a guest checks out of a room that was Occupied, the room's status must change back to Available so that it can be assigned to the next guest.
+The static void CheckOut() method will essentially perform the reverse of the CheckIn() process.
+
+
