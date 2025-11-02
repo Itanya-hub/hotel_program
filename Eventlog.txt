@@ -1,0 +1,42 @@
+RoomUnavailable: Room 1, Guest: Room 105, Time: 2025-11-01 23:02:29
+RoomUnavailable: Room 1, Guest: Room 105, Time: 2025-11-01 23:08:08
+GuestCheckIn: Room 1, Guest: Room 105, Guest: nick, Time: 2025-11-02 07:59:02
+GuestCheckOut: Room 1, Guest: Room 105 (Guest: ), Time: 2025-11-02 08:00:29
+RoomUnavailable: Room 1, Guest: Room 100, Time: 2025-11-02 08:02:51
+RoomUnavailable: Room 1, Guest: Room 101, Time: 2025-11-02 08:03:01
+RoomUnavailable: Room 1, Guest: Room 102, Time: 2025-11-02 08:03:27
+RoomUnavailable: Room 1, Guest: Room 105, Time: 2025-11-02 08:04:46
+GuestCheckIn: Room 1, Guest: Room 115, Guest: jo, Time: 2025-11-02 08:42:49
+GuestCheckOut: Room 1, Guest: Room 115 (Guest: ), Time: 2025-11-02 08:43:16
+GuestCheckOut: Room 1, Guest: Room 102 (Guest: ), Time: 2025-11-02 08:44:39
+RoomUnavailable: Room 1, Guest: Room 100, Time: 2025-11-02 08:45:07
+RoomUnavailable: Room 109, Time: 2025-11-02 12:18:18
+GuestCheckIn: Room 109, Guest: , Time: 2025-11-02 12:19:54
+RoomUnavailable: Room 110, Time: 2025-11-02 12:20:36
+GuestCheckIn: Room 110, Guest: Nicklas, Time: 2025-11-02 12:20:42
+GuestCheckOut: Room 110, Guest: , Time: 2025-11-02 12:20:58
+RoomAvailable: Room 100, Time: 2025-11-02 12:22:21
+RoomAvailable: Room 101, Time: 2025-11-02 12:23:01
+RoomAvailable: Room 103, Time: 2025-11-02 12:23:12
+RoomUnavailable: Room 105, Time: 2025-11-02 12:23:22
+RoomAvailable: Room 105, Time: 2025-11-02 12:23:39
+RoomUnavailable: Room 100, Time: 2025-11-02 12:24:31
+GuestCheckIn: Room 100, Guest: nc, Time: 2025-11-02 12:24:57
+RoomUnavailable: Room 110, Time: 2025-11-02 12:28:15
+GuestCheckOut: Room 108, Guest: , Time: 2025-11-02 12:30:47
+RoomUnavailable: Room 108, Time: 2025-11-02 12:31:03
+GuestCheckIn: Room 108, Guest: , Time: 2025-11-02 12:31:35
+GuestCheckOut: Room 108, Guest: , Time: 2025-11-02 12:31:56
+RoomUnavailable: Room 108, Time: 2025-11-02 12:32:29
+GuestCheckIn: Room 108, Guest: nc, Time: 2025-11-02 12:32:44
+GuestCheckOut: Room 108, Guest: , Time: 2025-11-02 12:32:59
+RoomUnavailable: Room 108, Time: 2025-11-02 12:33:26
+GuestCheckIn: Room 108, Guest: nc, Time: 2025-11-02 12:33:35
+GuestCheckOut: Room 108, Guest: , Time: 2025-11-02 12:33:47
+RoomUnavailable: Room 108, Time: 2025-11-02 12:34:00
+GuestCheckIn: Room 108, Guest: nc, Time: 2025-11-02 12:34:21
+GuestCheckOut: Room 108, Guest: , Time: 2025-11-02 12:34:33
+RoomUnavailable: Room 108, Time: 2025-11-02 12:35:04
+GuestCheckIn: Room 108, Guest: , Time: 2025-11-02 12:35:48
+RoomUnavailable: Room 101, Time: 2025-11-02 12:36:18
+GuestCheckIn: Room 101, Guest: , Time: 2025-11-02 12:36:46

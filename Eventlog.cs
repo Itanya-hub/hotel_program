@@ -1,94 +1,71 @@
 namespace App;
 
-// This is a list of all the different actions I want to keep track of.
-
+// Defines what kind of event happened
 enum EventType
 {
-    // When a guest checks in (corresponds to Main Menu Option 2)
     GuestCheckIn,
-
-    // When a guest checks out (corresponds to Main Menu Option 3)
     GuestCheckOut,
-
-    // When a reception marks a room as needing repair/cleaning (corresponds to Main Menu Option 4)
-    RoomUnavailable
+    RoomUnavailable,
+    RoomAvailable,
+    Error
 }
 
-// This is a helper class that manages saving and showing the history (the Event Log).
 
-static class EventLogger
-{
-    // This is the name of the file where all the actions will be saved.
-    private static readonly string eventLogFilePath = "EventLog.txt";
+// This static class handles saving and showing event logs.
 
-
-    //1. This part saves an action  Guest Name (for Check In/Out) ---
-    static void AddEvent(EventType action, int floorNum, int roomNum, string guestName)
+    static class EventLogger
     {
+        private static readonly string LogFilePath = "event_log.txt"; // The name of the log file
 
-        // Format of logEvent
-        string logEvent = $"{action}: Floor {floorNum} Room {roomNum}: Guest: {guestName}: {DateTime.Now:yyyy-MM-dd HH:mm:ss}";
-
-
-        // This command opens the log file, writes the new line of text, and then closes the file automatically.
-        File.AppendAllText(eventLogFilePath, logEvent + Environment.NewLine);
-    }
-
-
-
-    // 2.This part saves an action only room number (for Mark Unavailable)---
-    static void AddEvent(EventType action, int floorNum, int roomNum)
-    {
-        string logEvent = $"{action}: Floor {floorNum} Room {roomNum}: {DateTime.Now:yyyy-MM-dd HH:mm:ss}";
-
-        // Save the new log entry to the file.
-        File.AppendAllText(eventLogFilePath, logEvent + Environment.NewLine);
-    }
-
-
-
-    // 3. This part saves log history of the Users ---
-    static void ShowLog()
-    {
-        Console.WriteLine("\n===== EVENT LOG HISTORY =====");
-
-        // First, check if the file actually exists on the computer.
-        if (File.Exists(eventLogFilePath))
+        // Stores a record of the event
+        public static void AddEvent(EventType type, int roomNumber, string detail = "") // Log event type, room, and a note
         {
-            // If it exists, read every single line from the file into an array of strings.
-            string[] lines = File.ReadAllLines(eventLogFilePath);
+            string timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"); // Get the current time and date
+            string logEntry = $"[{timestamp}] {type} | Room {roomNumber} | {detail}"; // Format the message
 
-            // Check if the file has any content inside it.
-            if (lines.Length > 0)
+            try
             {
-                // Go through each line one by one and print it to the screen.
-                foreach (string line in lines)
+                File.AppendAllText(LogFilePath, logEntry + Environment.NewLine); // Add the message to the file
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[Logger Error] Could not write to log: {ex.Message}"); // Show an error if saving the log fails
+            }
+        }
+
+        // Displays the log to the user
+        public static void ShowLog() // Function to read and show the whole log
+        {
+            Console.Clear();
+            Console.WriteLine("===== EVENT LOG =====");
+            try
+            {
+                if (File.Exists(LogFilePath)) // Check if the log file exists
                 {
-                    Console.WriteLine(line);
+                    string[] lines = File.ReadAllLines(LogFilePath); // Read all lines from the log
+                    if (lines.Length == 0)
+                    {
+                        Console.WriteLine("The event log is currently empty."); // If the file is empty
+                    }
+                    else
+                    {
+                        foreach (string line in lines) // Loop through and print each log line
+                        {
+                            Console.WriteLine(line);
+                        }
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Event log file not found. Starting a new log."); // If no log file exists
                 }
             }
-            else
+            catch (Exception ex)
             {
-                // If the file is empty, tell the user.
-                Console.WriteLine("The event log is currently empty.");
+                Console.WriteLine($"Error reading event log: {ex.Message}"); // If reading the file fails
             }
+            Console.WriteLine("\nPress ENTER to continue...");
+            Console.ReadLine();
         }
-        else
-        {
-            // If the file doesn't exist yet, explain it will be created later.
-            Console.WriteLine("Event log file not found. A new one will be created upon the first event.");
-        }
-        // Wait for the user to press Enter before returning to the main menu.
-        Console.WriteLine("\nPress ENTER to return to the Main Menu...");
-        Console.ReadLine();
     }
 
-        
-
-
-
-
-
-
-
-}       
