@@ -20,7 +20,7 @@ class HotelManager
         Console.WriteLine("== Hotel Manager!==");
         LoadUsers(); // read users.csv
         if (!Login()) return;  // (early exit) If Login fails (returns false), exit the program immediately.
-        Console.WriteLine("Login successful");
+        Console.WriteLine("🔑Login successful");
         LoadRooms();  //Reads rooms.csv again
         Mainmenu();   // Calls the menu
     }
@@ -58,51 +58,45 @@ class HotelManager
     //2.Define LoadRooms I have mentioned above for storage in csv
 
 
-    static void LoadRooms()    //Reads the room list from Rooms.csv.
+    static void LoadRooms()
     {
         try
         {
-            rooms.Clear();   //Clears old data and loads each room line from file..
-            string[] lines = File.ReadAllLines("Rooms.csv");  // for read all rows (external data)
-            for (int i = 0; i < lines.Length; i++) // use loop for rooms
+            rooms.Clear();
+            string[] lines = File.ReadAllLines("Rooms.csv");
+            for (int i = 0; i < lines.Length; i++)
             {
-                if (lines[i].Trim() == "") continue;        // For skipping empty line 
-                string[] parts = lines[i].Split(',');       // Splits each line at the comma 
+                if (string.IsNullOrWhiteSpace(lines[i])) continue;
+                string[] parts = lines[i].Split(',');
+                if (parts.Length < 2) continue;
 
-                if (parts.Length < 2) continue;             //// Ensure that it has at least room number and status,
+                // parse number
+                if (!int.TryParse(parts[0].Trim(), out int number)) continue;
 
-                int number;
-                if (!int.TryParse(parts[0].Trim(), out number)) continue;    //Converts the text as room number into an integer..
-                string statusText = parts[1].Trim().ToLower();  //ignores uppercase/lowercase).
-
-                // Read guest name if present, trim, and set to empty string if only whitespace
-                    string guestName = parts.Length > 2 ? parts[2].Trim() : ""; 
-                    if (string.IsNullOrWhiteSpace(guestName)) 
-                    { 
-                        guestName = ""; 
-                    }
-                    
-
-                // use if-satsar because rooms has 3 status
+                // read status text and guest if present
+                string statusText = parts[1].Trim().ToLower();
+                string guestName = parts.Length > 2 ? parts[2].Trim() : "";
+                if (string.IsNullOrWhiteSpace(guestName)) guestName = "";
 
                 RoomStatus status;
-                if (statusText.Contains("occupied"))            //Having guest checked in 
+                if (statusText.Contains("occupied"))
                     status = RoomStatus.Occupied;
-                else if (statusText.Contains("unavailable"))  // no guest but room has a problem, need to be fixed
+                else if (statusText.Contains("unavailable"))
                     status = RoomStatus.Unavailable;
                 else
-                    status = RoomStatus.Available;              // room is free/available to book
+                    status = RoomStatus.Available;
 
-                Room room = new Room(number, guestName, status);    //Create a new Room object with its number, guest name, status — then put it into the list called rooms
-                rooms.Add(room);     // save this room to the list
+                Room room = new Room(number, guestName, status);
+                rooms.Add(room);
             }
-            Console.WriteLine("Rooms loaded successfully. Ready to manage.");
+            Console.WriteLine("✅ Rooms loaded successfully. Ready to manage.");
         }
         catch
         {
-            Console.WriteLine("Error! Try to log in again");
+            Console.WriteLine("Error loading Rooms.csv");
         }
     }
+
 
 
 
@@ -139,14 +133,15 @@ class HotelManager
         while (running)
         {
             Console.Clear();
-            Console.WriteLine("===== HOTEL MANAGEMENT SYSTEM =====");
-            Console.WriteLine("1. Show Available Rooms (Status: Available only)");
-            Console.WriteLine("2. Check In Guest (Book Room)");
+            Console.WriteLine("=====🏨 HOTEL MANAGEMENT SYSTEM 🏨 =====");
+            Console.WriteLine("1. Show Available Rooms");
+            Console.WriteLine("2. Check In Guest");
             Console.WriteLine("3. Check Out Guest");
             Console.WriteLine("4. Mark Room Unavailable / Return to Service");
             Console.WriteLine("5. Show ALL Rooms (Full Status Report)");
             Console.WriteLine("6. View Event Log");
-            Console.WriteLine("7. Exit");
+            Console.WriteLine("7. Save and Log Out");
+            Console.WriteLine("8. Return Room to Service (Set Available)");
             Console.WriteLine("=================================");
             Console.Write("Enter your choice: ");
             string choice = Console.ReadLine()!;
@@ -174,18 +169,28 @@ class HotelManager
                     break;
 
                 case "6":
-                    EventLogger.ShowLog();           // Option 6 shows the event log 
+                    EventLogger.ShowLog();
                     break;
 
                 case "7":
-                    SaveRooms();                      // Save all changes and exit
-                    Console.WriteLine("Saving changes and exiting. Goodbye!");
+                    SaveRooms();
+                    Console.WriteLine("All changes saved. Logging out...");
                     running = false;
                     break;
 
+                case "8":
+                    Console.Write("Enter Unavailable Room Number to set AVAILABLE again: ");
+                    if (int.TryParse(Console.ReadLine(), out int rn))
+                        SetRoomAvailable(rn);
+                    else
+                        Console.WriteLine("Invalid number format.");
+                    Console.WriteLine("Press ENTER to continue...");
+                    Console.ReadLine();
+                    break;
+
                 default:
-                    Console.WriteLine($"Invalid option '{choice}'. Please select a number from 1-7.");
-                    Console.WriteLine("Press ENTER to return to the menu..."); 
+                    Console.WriteLine($"⚠️ Invalid option '{choice}'. Please select 1 - 8.");
+                    Console.WriteLine("Press ENTER to return to menu...");
                     Console.ReadLine();
                     break;
             }
@@ -196,7 +201,7 @@ class HotelManager
     //5. Defines option1 from main menu ,Show all rooms status
     static void ShowAvailableRooms()
     {
-     
+
         Console.WriteLine("\n===== AVAILABLE ROOMS (STATUS: Available) =====");
 
         bool anyAvailable = false;
@@ -217,21 +222,21 @@ class HotelManager
 
         Console.WriteLine("\nPress ENTER to continue...");
         Console.ReadLine();
-           Console.Clear();
+        Console.Clear();
     }
 
 
     static void ShowAllRooms()
     {
-        
+
         Console.WriteLine("\n===== FULL ROOM STATUS REPORT =====");
 
         if (rooms.Count > 0)
         {
             foreach (Room room in rooms)
             {
-            string guestInfo = room.Status == RoomStatus.Occupied ? $" (Guest: {room.GuestName})" : "";
-            Console.WriteLine($"Room {room.RoomNumber}: {room.Status}{guestInfo}");
+                string guestInfo = room.Status == RoomStatus.Occupied ? $" (Guest: {room.GuestName})" : "";
+                Console.WriteLine($"Room {room.RoomNumber}: {room.Status}{guestInfo}");
             }
         }
         else
@@ -249,43 +254,38 @@ class HotelManager
 
     static void CheckIn()
     {
-        
         Console.WriteLine("\n--- Check In Guest ---");
         Console.Write("Enter Room Number to check in: ");
         string input = Console.ReadLine()!;
-
-        int roomNumber;
-        if (!int.TryParse(input, out roomNumber))
+        if (!int.TryParse(input, out int roomNumber))
         {
             Console.WriteLine("Invalid room number format. Please enter a number.");
             return;
         }
 
-        // Allow roomToFind to be null if not found
+        // find room
         Room? roomToFind = null;
-
-        foreach (Room room in rooms)
+        foreach (Room r in rooms)
         {
-            if (room.RoomNumber == roomNumber)
+            if (r.RoomNumber == roomNumber)
             {
-                roomToFind = room;
+                roomToFind = r;
                 break;
             }
         }
 
         if (roomToFind == null)
         {
-             Console.WriteLine($"❌ Room {roomNumber} does not exist. Please try again.");
-             Console.WriteLine("Tip: Use option 5 to view all valid room numbers.");
-             Console.WriteLine("Press ENTER to return to the menu...");
-             Console.ReadLine();
-         return;
+            Console.WriteLine($"❌ Room {roomNumber} does not exist. Please try again.");
+            Console.WriteLine("Tip: Use option 5 to view all valid room numbers.");
+            Console.WriteLine("Press ENTER to return to the menu...");
+            Console.ReadLine();
+            return;
         }
 
-        // Properly handle unavailable and occupied
         if (roomToFind.Status == RoomStatus.Occupied)
         {
-            Console.WriteLine($"❌ Sorry, Room {roomNumber} is already occupied.by '{roomToFind.GuestName}'.");
+            Console.WriteLine($"❌ Sorry, Room {roomNumber} is already occupied by '{roomToFind.GuestName}'.");
             Console.WriteLine("Tip: Use option 1 to check which rooms are available.");
             Console.WriteLine("Press ENTER to return to the menu...");
             Console.ReadLine();
@@ -300,26 +300,28 @@ class HotelManager
             Console.ReadLine();
             return;
         }
-             // only if available, continue with check-in
-             Console.Write("Enter guest name: ");
-             string guestName = Console.ReadLine()!;
-             roomToFind.GuestName = guestName;
-             roomToFind.Status = RoomStatus.Occupied;
 
-             SaveRooms();
-             EventLogger.AddEvent(EventType.GuestCheckIn, roomNumber, guestName);
+        // Now it's Available → ask for guest name and set Occupied
+        Console.Write("Enter guest name: ");
+        string guestName = Console.ReadLine()!;
+        roomToFind.GuestName = guestName;
+        roomToFind.Status = RoomStatus.Occupied;
 
-         Console.WriteLine($"✅ Guest '{guestName}' checked into room {roomNumber} successfully!");
-         Console.WriteLine("Press ENTER to continue...");
-         Console.ReadLine();
-         Console.Clear();
+        SaveRooms(); // save immediately
+        EventLogger.AddEvent(EventType.GuestCheckIn, roomNumber, guestName);
+
+        Console.WriteLine($"✅ Guest '{guestName}' checked into room {roomNumber} successfully!");
+        Console.WriteLine("Tip: You can view current occupancy with option 5.");
+
+        Console.WriteLine("Press ENTER to continue...");
+        Console.ReadLine();
     }
 
 
     //7. Defines option3-check out from main menu
     static void CheckOut()
     {
-      
+
         Console.WriteLine("\n--- Check Out Guest ---");
         Console.Write("Enter Room Number to check out: ");
         string input = Console.ReadLine()!;
@@ -373,89 +375,154 @@ class HotelManager
 
 
 
-    //8. Defines option4 - Mark Room Unavailable / Return to Service
+    //8. Defines option4 - Mark Room Unavailable / Return to Service--by user input
     static void MarkUnavailable()
-    {
-        
-        Console.WriteLine("\n--- Mark Room Unavailable / Return to Service ---");
-        Console.Write("Enter Room Number: ");
-        string input = Console.ReadLine()!;
-
-        if (!int.TryParse(input, out int roomNumber))
         {
-            Console.WriteLine("Invalid room number format.");
-            return;
-        }
-
-        Room? roomToFind = null;
-        foreach (Room r in rooms)
-        {
-            if (r.RoomNumber == roomNumber)
+            Console.WriteLine("\n--- Mark Room Unavailable (Maintenance) ---");
+            Console.Write("Enter Room Number: ");
+            string input = Console.ReadLine()!;
+            if (!int.TryParse(input, out int roomNumber))
             {
-                roomToFind = r;
-                break;
+                Console.WriteLine("Invalid room number format.");
+                return;
             }
-        }
 
-        if (roomToFind == null)
-        {
-            Console.WriteLine($"Room {roomNumber} not found.");
-            return;
-        }
+            //  Search for the specific RoomNumber.
+            Room? room = null;
+            foreach (Room r in rooms)
+            {
+                if (r.RoomNumber == roomNumber)
+                {
+                    room = r;
+                    break;
+                }
+            }
 
-        if (roomToFind.Status == RoomStatus.Occupied)
-        {
-            Console.WriteLine($"⚠️ Room {roomNumber} is occupied. You must check out the guest first.");
+
+            if (room == null)
+            {
+                Console.WriteLine($"❌ Room {roomNumber} not found.");
+                return;
+            }
+
+            if (room.Status == RoomStatus.Occupied)
+            {
+                Console.WriteLine($"⚠️ Room {roomNumber} is occupied by {room.GuestName}. Check out the guest first.");
+                return;
+            }
+            
+            // If the room is already Unavailable, remind the user to use Option 8.
+            if (room.Status == RoomStatus.Unavailable)
+            {
+                Console.WriteLine($"🚧 Room {roomNumber} is already UNAVAILABLE.");
+                Console.WriteLine("To set it back to AVAILABLE, please use **Option 8**.");
+                
+            }
+            else // Room is Available, set it to Unavailable
+            {
+                SetRoomUnavailable(roomNumber);
+            }
+            
+            Console.WriteLine("Press ENTER to continue...");
             Console.ReadLine();
-            return;
         }
 
-        if (roomToFind.Status == RoomStatus.Unavailable)
+        // Helper function to set a room's status to Available. Used by Option 8 and CheckOut.
+        static void SetRoomAvailable(int roomNumber)
         {
-            roomToFind.Status = RoomStatus.Available;
-            Console.WriteLine($"✅ Room {roomNumber} is now AVAILABLE for booking again.");
+            // Search for the specific RoomNumber.
+            Room? room = null;
+            foreach (Room r in rooms)
+            {
+                if (r.RoomNumber == roomNumber)
+                {
+                    room = r;
+                    break;
+                }
+            }
+
+            if (room == null)
+            {
+                Console.WriteLine($"❌ Room {roomNumber} not found.");
+                return;
+            }
+
+            if (room.Status == RoomStatus.Occupied)
+            {
+                Console.WriteLine($"⚠️ Room {roomNumber} is occupied. Check out before marking available.");
+                return;
+            }
+
+            room.Status = RoomStatus.Available;
+            room.GuestName = "";
+            SaveRooms();
             EventLogger.AddEvent(EventType.RoomAvailable, roomNumber);
+            Console.WriteLine($"✅ Room {roomNumber} is now AVAILABLE again.");
         }
-        else
+
+        // Helper function to set a room's status to Unavailable. Used by Option 4.
+        static void SetRoomUnavailable(int roomNumber)
         {
-            roomToFind.Status = RoomStatus.Unavailable;
-            Console.WriteLine($"🚧 Room {roomNumber} is now marked as UNAVAILABLE (maintenance).");
+            // Search for the specific RoomNumber.
+            Room? room = null;
+            foreach (Room r in rooms)
+            {
+                if (r.RoomNumber == roomNumber)
+                {
+                    room = r;
+                    break;
+                }
+            }
+
+            if (room == null)
+            {
+                Console.WriteLine($"❌ Room {roomNumber} not found.");
+                return;
+            }
+
+            if (room.Status == RoomStatus.Occupied)
+            {
+                Console.WriteLine($"⚠️ Room {roomNumber} is occupied. Check out first.");
+                return;
+            }
+
+            room.Status = RoomStatus.Unavailable;
+            room.GuestName = "";
+            SaveRooms();
             EventLogger.AddEvent(EventType.RoomUnavailable, roomNumber);
+            Console.WriteLine($"🚧 Room {roomNumber} marked as UNAVAILABLE (under maintenance).");
         }
 
-        SaveRooms();
-        Console.ReadLine();
-        Console.Clear();
-    }
 
 
-
-    //9. Defines SaveRooms to update and save all room data back into Rooms.csv
+    //10. Defines SaveRooms to update and save all room data back into Rooms.csv
     static void SaveRooms()
     {
-        Console.WriteLine("Saving changes to Rooms.csv...");
         try
         {
-            // Prepare a list of strings to write to the file
             List<string> lines = new List<string>();
             foreach (var room in rooms)
             {
-                // Format: RoomNumber,Status,GuestName
-                // We will use the GuestName only if the room is occupied, otherwise it's empty.
                 string guestPart = room.Status == RoomStatus.Occupied ? $",{room.GuestName}" : string.Empty;
                 string line = $"{room.RoomNumber},{room.Status}{guestPart}";
                 lines.Add(line);
             }
-            // Write all the lines back to the file
-            File.WriteAllLines("Rooms.csv", lines);
-            Console.WriteLine("Room status has been sucessfully updated and saved!");
-        }
-        catch (Exception)
-        {
-            Console.WriteLine($"Error saving rooms");
-        }
 
+            string tempPath = "Rooms.csv.tmp";
+            File.WriteAllLines(tempPath, lines);
+
+            if (File.Exists("Rooms.csv"))       // If Rooms.csv exists, replace it; otherwise move the temp file.
+            {
+                File.Delete("Rooms.csv");
+            }
+            File.Move(tempPath, "Rooms.csv");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"⚠️ Error saving rooms: {ex.Message}");
+        }
     }
+
 }
 
 

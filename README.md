@@ -1,138 +1,178 @@
- (How Program Works)
+🏨 Hotel Management System – Reflection & Report
+(How the Program Works)
 
-1. **Start Program**
-   - Reads `users.csv`
-   - Asks for username and password
-   - If login info matches → continue
+Start Program
 
-2. **Load Rooms**
-   - Reads `rooms.csv`
-   - Saves data into memory (list or dictionary)
+Reads users.csv for login credentials.
 
-3. **Main Menu**
-   1. Show occupied rooms  
-   2. Show free rooms  
-   3. Check in a guest  
-   4. Check out a guest  
-   5. Mark room unavailable  
-   6. Exit
+Asks for username and password.
 
-4. **User Chooses Option**
-   - Program uses `if` or `switch` to decide what to do
+If login info matches → program continues to the main menu.
 
-5. **When Changes Happen**
-   - Save data back into `rooms.csv` automatically
+Load Rooms
 
-6. **Loop continues until Exit**
+Reads data from rooms.csv.
+
+Stores room details into memory using a list.
+
+Main Menu Options
+
+Show occupied rooms
+
+Show available rooms
+
+Check in a guest
+
+Check out a guest
+
+Mark room unavailable / available
+
+Show event log history
+
+Exit
+
+User Chooses an Option
+
+Program uses if or switch to decide what to do.
+
+When Any Change Happens
+
+Saves all updates automatically back to rooms.csv.
+
+Loop Continues Until Exit
+
+User can keep performing actions until they choose to exit the system.
+
+Problems I Faced During Development and How I Fixed Them
+
+‘rooms’ does not contain a definition for ‘Add’
+
+I didn’t declare the rooms variable correctly — it must be a List, not a Dictionary.
+
+Case Sensitivity Errors
+
+C# is case-sensitive, so I had to match names exactly as declared.
+
+File Locked During Build
+
+The program couldn’t access hotelprogram.exe because it was still running in another process. Fixed by stopping the build and running again.
+
+Null Warnings on Console.ReadLine()
+
+I forgot to add ! after Console.ReadLine() to avoid null warnings.
+
+List Declaration Error
+
+Fixed by writing static List<Room> rooms = new List<Room>();
+
+Adding Event Log (new idea)
+
+I added EventLog.txt to store a running history of all actions (like check-in/check-out).
+
+I used File.AppendAllText, which I learned from a classmate’s trading project.
+
+.txt keeps a running history, while .csv stores the current state.
+
+Nullable Room Object Warning
+
+Used Room roomToFind = null!; to avoid null warnings and safely check if the room exists.
+
+Adding More Rooms in CSV
+
+When I tried to save Rooms.csv, I got the message “The content of the file is newer”.
+
+I learned that this doesn’t affect the code — my LoadRooms() function just loads them automatically.
+
+Adding Icons for Better UX
+
+I added utf 8 Unicode symbols like ❌ or ⚠️ ,etc  to make it more attractive and readable (similar to what I did in my Python Project).
+
+EventLog Not Updating
+
+Found out I named the file Eventlog.txt instead of EventLog.txt. Fixed by correcting the filename.
+
+Check-In and Check-Out Finally Work Properly
+
+Now it correctly shows room number, guest name, and timestamp in both console and log file.
+
+More Issues I Encountered Later
+
+All Rooms Showed as “Available” Even When Some Weren’t
+
+Inline comments like 103,Unavailable // AC needs fixing broke the CSV reading.
+
+Fixed by cleaning the CSV and trimming input strings.
+
+Show All Rooms Displayed Duplicates
+
+Caused by not clearing the list before loading.
+
+Fixed by adding rooms.Clear() at the start of LoadRooms().
+
+Missing Curly Braces Caused Compile Errors
+
+Fixed by checking indentation and braces carefully.
+
+Check-Out Didn’t Change Room Status
+
+Fixed by updating room.Status = RoomStatus.Available and saving immediately after check-out.
+
+Option 6 (Show Event Log) Showed Nothing
+
+Fixed by ensuring all actions properly called EventLogger.AddEvent() with the right EventType.
+
+Additional User-Flow Problems and Fixes
+
+Check-In Flow Issue
+
+Before: The system still asked for a guest name even if the room was Unavailable (under maintenance).
+
+✅ Fixed by restructuring the CheckIn() method — added early return statements when the room is Occupied or Unavailable.
+
+Now it only asks for a name when the room is truly Available.
+
+Guest Name Not Showing in Messages
+
+Before: When checking into an already occupied room, it only said “already occupied” but didn’t show who was staying there.
+
+✅ Fixed by improving the LoadRooms() function using .Trim() and string.IsNullOrWhiteSpace() to correctly read guest names from the CSV.
+
+Now the system shows:
+
+❌ Sorry, Room 100 is already occupied by Kevin.
+
+Check-Out Logging Showed Empty Guest Name
+
+Before: The log showed no guest name because it was cleared too early.
+
+✅ Fixed by storing the guest’s name in a temporary variable before resetting the room object, and passing that to EventLogger.
+
+Other Small Fixes
+
+Added user feedback when entering invalid menu options (e.g., “Invalid choice. Please select 1–7.”)
+
+Added a feature to toggle room status back to Available after maintenance (option 4).
+
+Improved messages for unavailable or occupied rooms to make the system more user-friendly.
+
+Fixed event log entries to show consistent and readable output.
+
+Final System Behavior
+
+✅ Option 1 – Shows all available rooms correctly.
+✅ Option 2 – Allows check-in only if the room is available and logs the event.
+✅ Option 3 – Checks out the guest, updates CSV, and records the event.
+✅ Option 4 – Marks room unavailable or available again for maintenance.
+✅ Option 5 – Shows all rooms with current status and guest names.
+✅ Option 6 – Displays full event log history from EventLog.txt.
+
+Conclusion
+
+This project was challenging but fun to build.
+I learned a lot about file handling, enums, and how to handle real system logic like check-in/out, maintenance, and logging.
+I also improved my debugging skills — especially understanding errors, fixing logical flow, and keeping my code clean and readable.
+The final program now runs smoothly and realistically like a simple hotel reception system.
 
 
-
-**problem during the code **
-1.'rooms' does not contain a definition for 'Add'
-I didn’t declare the rooms variable correctly.
-It must be a List, not a Dictionary.
-2.Error spell with sensitive case
-3.File Locked During Build ,The process cannot access the file 'hotelprogram.exe' because it is being used by another process.
-4.Forget to Add ! after Console.ReadLine() for Null warnings
-5.Compiler error: 'rooms' does not contain a definition for 'Add'. so i tried to Corrected the global variable declaration to use static List<Room> rooms = new List<Room>();.
-6. its good to have a record in eventlog same concecpt as my group assignment in healthcare but i will do this in.txt to just store a running history of actions. and the Users never need to go back and edit a log entry; they just append a new one which is different from .csv which is for store the application's current state as structured data and i use File.AppendAllText which I got an idea from one of my classmate that he used this method in trading assignment.
-7.I used this funtion Room roomToFind = null!; for check in part ***
-“roomToFind might not exist, so check for null before using it.
-
-8. new thing I have learned is I tried to add more room in Rooms.csv the system doesnt let me save , it shows THe content of the file is newer, please compare your version with the file contents or overwrite the content of the file with your changes  , I was worried if it would effect any code I have been doing but it seems fine because I have I have LoadRooms() function will just load them automatically.
-9. I also can add icon to match with the method , I did with Python when i made a bus project and i try on c# , it works , i think its more fun to have some icon for some menu ex."❌ Sorry, Room {roomNumber} is already occupied." or ⚠️ Room {roomNumber} is unavailable (under maintenance). 
-10. After testing many times ,it always comes with the new problem and I did not see any Eventlog update of rom booking history so I tried to check carefully if there was any wrong then I found out that the file name was wrong ---private static readonly string LogFilePath = "Eventlog.txt";--, I accidentlly spell wrong with name file but after I changed it works again 
-11.Check in and check out , finally works as I expected , show room number and guestname and time 
-
-
-still underconstruction
-6. All rooms were incorrectly loaded as Available. that should be set to Unavailable follow by the rooms list i made in Rooms.csv
-i assume that The Rooms.csv file contained inline comments (e.g., 103,Unavailable // AC needs to be fixed). The string.Split(',') operation included the comment as part of the status string: "Unavailable // AC needs to be fixed" .. ...
-
-7.The Show All Rooms display listed every room twice. This caused occupied rooms (e.g., Room 101) to appear available during check-in because the search found the second, uninitialized copy of the room.  , still not work so far even I added rooms.Clear() as the first line within the LoadRooms()
-
-8. ShowRooms, CheckIn, check out are inside Mainmenu() , code doesnt run correctly 
-
-**git commit**    SaveRooms();  into case 5 so its save every changes 
-I have a misplaced closing curly brace ({}). When a brace is missing:
-
-
-***mark som room available** 
-if i check out guest 100 original is occu ,, is it suppose to change to available ? I neeed to find solution 
-When a guest checks out of a room that was Occupied, the room's status must change back to Available so that it can be assigned to the next guest.
-The static void CheckOut() method will essentially perform the reverse of the CheckIn() process.
-
-** update 
-show main menu ,even file
-
-Since i call them from another class (HotelManager / Program), i must make them public static.
-
-after update eventlog file, option 1 show 2 rooms avaible which is correct info I have in Room.csv
-option 2  when i click check in to the occupied room as 100 , it doesnt show that the room not availble
-and when i try to option2 with the available room is work and ask for add guest name in but in event log doesnt show the correct room number (room 105) 
-I just check in , it shows only this RoomUnavailable: Room 1, Guest: Room 105, Time: 2025-11-01 23:02:29
-then i choose option 4 and choose room 105 again just want to mark room unavilable 
--- Mark Room Unavailable / Return to Service ---
-Enter Room Number: 105
-Room 105 is now set to AVAILABLE again. 
-So when you I pass multiple parameters (room number and guest name separately), it doesn’t combine them properly — the logger gets confused and only writes the first argument (1) as “room”.
-
-it took time to find the right solution for me until i reliazed that there is some thiing wrong with EventLogger.AddEvent() call uses incorrect argument order.
-
-
-
-Saving changes to Rooms.csv...
-Room status has been sucessfully updated and saved!
-Room status updated. Press ENTER to continue...
-
-option6 nothing show up 
-
-
-when i choose option2 ,check in i try to add room number that Its occupied but nothinh happen , i want system to show that Sorry, this room is taken, try another room number by press option1
-
-but it goes well with 
-option 2 to check in and add guestname then when i check sttus room again ,its not availble anymore
-option3 works wih check out and eventlog also work well and room back to available again if use option1
-
-but option4
-when i choose the room status like 102 which is occupied ,system show unavailable instead and it shows like this with all room but eventlog nothing status change
-
-option5 works , follow by option4 i try to mark unavailable room to available room status as 105 and it becomes unavailable(maintain process) but how do i unmark the room when its done fixing and set it become availble again
-
-
-
-
-
-I created EventLogger.cs to record all activities inside the hotel system.
-
-It automatically saves each action (Check In, Check Out, Mark Unavailable, etc.) into a text file called EventLog.txt.
-
-The log also records the date and time of each event.
-
-I used two AddEvent methods:
-
-One for guest actions (needs guest name)
-
-One for room-only actions (maintenance)
-
-ShowLog() lets the receptionist see all history from the console window.
-
-
-
-1.when the room is show unavialble status it shouldnt show the option enter guest name 
-No checkout name is visable in the log. Checkin is showing though. ---solution is use enum to Defines what kind of event happened
-    enum EventType { GuestCheckIn, GuestCheckOut, RoomUnavailable, RoomAvailable, Error }
-
-
-
-2when user put the wrong option in menu it should give an error message and show its wrong number ,pl select 1-7 , i have this option but it didnt work 
-  default:
-                    Console.WriteLine("Invalid option. Please try again.");
-                    break;
-                    
-3.when the room show available - then check in it should show occupied not unavaible 
-
-i try to check in to the room 100 (with occupied with guestname , joe but it shows only room , still not show name , and nothing update in room,csv --- Check In Guest --- Enter Room Number to check in: 100 ❌ Sorry, Room 100 is already occupied. Tip: Use option 1 to check which rooms are available. Press ENTER to return to the menu...
-
-with option4 it works for to mark unavialble room from available room but how to set that room back to available again 
-
+becoz there the system doesnt work well after testing .. I couldnt find the way to set unmarkable back to available again (ex. room is done with maintaining) so i had to find the way to make it work , so i add one more static RoomAvailable(int roomNumber)
+so i add SetRoomUnavailable() and SetRoomAvailable() as a  helper functions , dorsnt need any input same as MarkUnavailable()

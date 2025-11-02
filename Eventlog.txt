@@ -44,3 +44,19 @@ GuestCheckIn: Room 101, Guest: , Time: 2025-11-02 12:36:46
 
 [2025-11-02 15:17:03] GuestCheckIn | Room 103 | Paul
 [2025-11-02 15:17:25] GuestCheckOut | Room 103 | Paul
+[2025-11-02 21:13:58] GuestCheckOut | Room 108 | Toon
+[2025-11-02 21:14:36] GuestCheckIn | Room 108 | nck
+[2025-11-02 21:15:32] GuestCheckOut | Room 100 | Joe
+[2025-11-02 21:19:07] RoomUnavailable | Room 100 | 
+[2025-11-02 21:42:23] RoomAvailable | Room 100 | 
+[2025-11-02 21:42:39] RoomUnavailable | Room 100 | 
+[2025-11-02 21:46:26] RoomUnavailable | Room 103 | 
+[2025-11-02 21:49:46] GuestCheckOut | Room 108 | nck
+[2025-11-02 22:06:23] GuestCheckOut | Room 108 | nck
+[2025-11-02 22:06:39] RoomUnavailable | Room 103 | 
+[2025-11-02 22:26:01] GuestCheckOut | Room 101 | Nick
+[2025-11-02 22:26:13] RoomUnavailable | Room 101 | 
+[2025-11-02 22:39:57] RoomUnavailable | Room 105 | 
+[2025-11-02 23:07:46] RoomAvailable | Room 100 | 
+[2025-11-02 23:08:10] RoomAvailable | Room 101 | 
+[2025-11-02 23:12:39] GuestCheckIn | Room 100 | Max
