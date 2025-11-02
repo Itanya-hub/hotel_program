@@ -1,0 +1,6 @@
+[2025-11-02 14:26:58] GuestCheckOut | Room 100 | Kevin
+[2025-11-02 14:30:12] GuestCheckOut | Room 100 | Kevin
+[2025-11-02 14:32:14] GuestCheckIn | Room 100 | Joe
+[2025-11-02 14:53:14] GuestCheckIn | Room 102 | anna
+[2025-11-02 14:53:28] GuestCheckOut | Room 102 | anna
+[2025-11-02 15:03:19] GuestCheckIn | Room 102 | Lil

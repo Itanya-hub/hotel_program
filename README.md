@@ -41,7 +41,8 @@ It must be a List, not a Dictionary.
 
 8. new thing I have learned is I tried to add more room in Rooms.csv the system doesnt let me save , it shows THe content of the file is newer, please compare your version with the file contents or overwrite the content of the file with your changes  , I was worried if it would effect any code I have been doing but it seems fine because I have I have LoadRooms() function will just load them automatically.
 9. I also can add icon to match with the method , I did with Python when i made a bus project and i try on c# , it works , i think its more fun to have some icon for some menu ex."❌ Sorry, Room {roomNumber} is already occupied." or ⚠️ Room {roomNumber} is unavailable (under maintenance). 
-
+10. After testing many times ,it always comes with the new problem and I did not see any Eventlog update of rom booking history so I tried to check carefully if there was any wrong then I found out that the file name was wrong ---private static readonly string LogFilePath = "Eventlog.txt";--, I accidentlly spell wrong with name file but after I changed it works again 
+11.Check in and check out , finally works as I expected , show room number and guestname and time 
 
 
 still underconstruction
@@ -130,3 +131,8 @@ No checkout name is visable in the log. Checkin is showing though. ---solution i
                     break;
                     
 3.when the room show available - then check in it should show occupied not unavaible 
+
+i try to check in to the room 100 (with occupied with guestname , joe but it shows only room , still not show name , and nothing update in room,csv --- Check In Guest --- Enter Room Number to check in: 100 ❌ Sorry, Room 100 is already occupied. Tip: Use option 1 to check which rooms are available. Press ENTER to return to the menu...
+
+with option4 it works for to mark unavialble room from available room but how to set that room back to available again 
+

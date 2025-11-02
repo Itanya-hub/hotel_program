@@ -40,3 +40,7 @@ RoomUnavailable: Room 108, Time: 2025-11-02 12:35:04
 GuestCheckIn: Room 108, Guest: , Time: 2025-11-02 12:35:48
 RoomUnavailable: Room 101, Time: 2025-11-02 12:36:18
 GuestCheckIn: Room 101, Guest: , Time: 2025-11-02 12:36:46
+[2025-11-02 15:09:00] GuestCheckOut | Room 102 | Lil
+
+[2025-11-02 15:17:03] GuestCheckIn | Room 103 | Paul
+[2025-11-02 15:17:25] GuestCheckOut | Room 103 | Paul

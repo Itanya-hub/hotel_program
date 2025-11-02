@@ -15,7 +15,7 @@ enum EventType
 
     static class EventLogger
     {
-        private static readonly string LogFilePath = "event_log.txt"; // The name of the log file
+        private static readonly string LogFilePath = "Eventlog.txt"; // The name of the log file
 
         // Stores a record of the event
         public static void AddEvent(EventType type, int roomNumber, string detail = "") // Log event type, room, and a note

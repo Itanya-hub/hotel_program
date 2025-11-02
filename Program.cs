@@ -230,7 +230,8 @@ class HotelManager
         {
             foreach (Room room in rooms)
             {
-                Console.WriteLine($"Room {room.RoomNumber}: {room.Status}");
+            string guestInfo = room.Status == RoomStatus.Occupied ? $" (Guest: {room.GuestName})" : "";
+            Console.WriteLine($"Room {room.RoomNumber}: {room.Status}{guestInfo}");
             }
         }
         else
@@ -274,14 +275,17 @@ class HotelManager
 
         if (roomToFind == null)
         {
-            Console.WriteLine($"Error: Room {roomNumber} does not exist.");
-            return;
+             Console.WriteLine($"❌ Room {roomNumber} does not exist. Please try again.");
+             Console.WriteLine("Tip: Use option 5 to view all valid room numbers.");
+             Console.WriteLine("Press ENTER to return to the menu...");
+             Console.ReadLine();
+         return;
         }
 
-        // ✅ Properly handle unavailable and occupied
+        // Properly handle unavailable and occupied
         if (roomToFind.Status == RoomStatus.Occupied)
         {
-            Console.WriteLine($"❌ Sorry, Room {roomNumber} is already occupied.");
+            Console.WriteLine($"❌ Sorry, Room {roomNumber} is already occupied.by '{roomToFind.GuestName}'.");
             Console.WriteLine("Tip: Use option 1 to check which rooms are available.");
             Console.WriteLine("Press ENTER to return to the menu...");
             Console.ReadLine();
@@ -296,21 +300,19 @@ class HotelManager
             Console.ReadLine();
             return;
         }
-        else    // only if AVAILABLE
-        {
-            Console.Write("Enter guest name: ");
-            string guestName = Console.ReadLine()!;
-            roomToFind.GuestName = guestName;
-            roomToFind.Status = RoomStatus.Occupied;
-            SaveRooms();
-            EventLogger.AddEvent(EventType.GuestCheckIn, roomNumber, guestName);
-            Console.WriteLine($"✅ Guest '{guestName}' checked into room {roomNumber} successfully!");
+             // only if available, continue with check-in
+             Console.Write("Enter guest name: ");
+             string guestName = Console.ReadLine()!;
+             roomToFind.GuestName = guestName;
+             roomToFind.Status = RoomStatus.Occupied;
 
-        }
-        
-        Console.WriteLine("Press ENTER to continue...");
-        Console.ReadLine();
-        Console.Clear();
+             SaveRooms();
+             EventLogger.AddEvent(EventType.GuestCheckIn, roomNumber, guestName);
+
+         Console.WriteLine($"✅ Guest '{guestName}' checked into room {roomNumber} successfully!");
+         Console.WriteLine("Press ENTER to continue...");
+         Console.ReadLine();
+         Console.Clear();
     }
 
 
@@ -328,6 +330,7 @@ class HotelManager
             Console.WriteLine("Invalid room number format.");
             return;
         }
+
 
         Room roomToFind = null!;
         foreach (Room room in rooms)
@@ -387,13 +390,12 @@ class HotelManager
         Room? roomToFind = null;
         foreach (Room r in rooms)
         {
-         if (r.RoomNumber == roomNumber)
-         {
-        roomToFind = r;
-        break;
+            if (r.RoomNumber == roomNumber)
+            {
+                roomToFind = r;
+                break;
+            }
         }
-        }
-
 
         if (roomToFind == null)
         {
@@ -422,7 +424,6 @@ class HotelManager
         }
 
         SaveRooms();
-        Console.WriteLine("Room status updated successfully!");
         Console.ReadLine();
         Console.Clear();
     }
