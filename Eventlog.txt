@@ -77,3 +77,7 @@ GuestCheckIn: Room 101, Guest: , Time: 2025-11-02 12:36:46
 [2025-11-03 12:47:04] RoomAvailable | Room 102 | 
 [2025-11-03 12:47:24] GuestCheckIn | Room 100 | Lars
 [2025-11-03 12:48:07] RoomAvailable | Room 107 | 
+[2025-11-03 13:46:37] GuestCheckOut | Room 100 | Lars
+[2025-11-03 13:46:47] RoomUnavailable | Room 100 | 
+[2025-11-03 13:46:54] RoomAvailable | Room 100 | 
+[2025-11-03 17:25:33] GuestCheckIn | Room 100 | DoDoDo Dothamcham
