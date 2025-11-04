@@ -154,15 +154,15 @@ guest in an "unavailable" room. Now if you try to check-in a guest you get the f
 5. Rooms Not Switching Between Available and Unavailable (This was one of the hardest part)
 
 ❌ Couldn't find the way to switch room status between Available and Unavailable. I can change from Available 
-to Unavailable but I couldn’t make it work the other way around. I spent hours trying to make a room return from Unavailable to Available again, then finally I found out that problem was that LoadRooms() was called right after SaveRooms() — reloading the old data and overwriting my change.
+to Unavailable but I couldn’t make it work the other way around. I spent hours trying to make a room return from Unavailable to Available again, 
 ✅ Fixed by removing LoadRooms() from helper functions and adding explicit methods:
 SetRoomUnavailable() and SetRoomAvailable() and add into case logic block (option5)which is the easiest way for the user to reset a room status to Available 
 
 6. Menu Options Reordered
 
-❌ The original order (option from main menu) (1,5,2,4...) was confusing.
-✅ I restructured the switch block to follow natural logic flow from Available → Check-In → Check-Out → Maintenance → Logs.
-This made testing and user experience much smoother and I think this makes more sense.
+❌ The original order (option login from main menu as 1,5,2,4...) was confusing.
+✅ I restructured the switch block to follow natural logic flow from Available → Check-In → Check-Out → Maintenance → Available For Booking (again)→  Logs.
+This makes testing and user experience much smoother and I think this makes more sense.
 
 
 
@@ -191,8 +191,7 @@ This made testing and user experience much smoother and I think this makes more 
 
 💬 Personal Reflection
 
-This project honestly took me through a rollercoaster of frustration and learning.
-Every time I thought I fixed one bug, another appeared.
+This project honestly took me through a rollercoaster of frustration and learning. Every time I thought I fixed one bug, another appeared.
 I spent hours staring at CSV data, wondering why rooms didn’t update — only to realize I was overwriting them myself.
 But each small victory felt great.
 
@@ -202,9 +201,9 @@ Even small details like icons (⚠️, ❌, ✅) made the program feel more aliv
 It reminded me of the projects I did in Python and pushed me to think about user experience — even in console apps.
 
 After I have been doing this project, there are so many idea started to show up in my head and I even asked my friend (who has no coding exp but manager skill) to test my code and give me some feedback If the program have missed something or if I should make it better, then I got so many ideas, for example:
-
-🔍Why there is no name of guest when its occupied room (actually it was about code I missed this part {guestName} in that logic block)
-🔍How to set the room from unavailable to available again so the hotel can get more room to check in (and this is why I added option 6 later )
+ He asked that ....
+🔍Why there is no name of guest when its occupied room (actually it was about code I missed this part {guestName} in that logic block) -but I fixed
+🔍How to set the room from unavailable to available again so the hotel can get more room to check in, he did not see the option to do that (and this was why I added option 6 later )
 🔍Can you add more users for log-in, as manager and reception name because there is not only one person that works as reception for 24/7. 
 I totally agree with the idea but it would be more complex than this project by adding different permission method and user login. As we did in the group project about the Health care system and I will keep it in mind for the future project. 
 
@@ -212,9 +211,13 @@ I totally agree with the idea but it would be more complex than this project by 
 🚀 Future Development Ideas 
 
 🔦Add user roles (Admin vs. Receptionist) with different permissions , Include Receptionist Name in every log entry (for accountability) so the manager can see who is the reception at the current time, there is something happen, it is easier to deal direct to the right person as...
+
          In professional systems, every log entry should include who performed the action — not just what happened.
+         ------------------------------------------------------------------------------------------------------------
            Example:        GuestCheckIn: Room 101, Time: 2025-11-01 23:15:30, By User: Tanya_L
+           
            This turns the log from a basic history file into a true audit trail, improving accountability and real-world usability.
+        ------------------------------------------------------------------------------------------------------------------------------
 
 🔦Create a search function for guests by name or room.
 
